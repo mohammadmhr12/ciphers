@@ -1,47 +1,70 @@
-class Caesar():
+"""
+-------------
+caesar cipher
+-------------
+In cryptography, a Caesar cipher, also known as Caesar's cipher, the shift cipher,
+Caesar's code, or Caesar shift, is one of the simplest and most widely known encryption techniques.
+It is a type of substitution cipher in which each letter in the plaintext is replaced by a letter some fixed number of positions down the alphabet.
+For example, with a left shift of 3, D would be replaced by A, E would become B, and so on.
+The method is named after Julius Caesar, who used it in his private correspondence. 
 
-    little_alpha = "abcdefghijklmnopqrstuvwxyz"
-    big_alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    numbers = "0123456789"
-    
-    def __init__(self, text, key=3):
-        self.text = text
-        self.key = key
-        self.ciphertext = str()
-        self.plaintext = str()
+wikipedia
+"""
 
-    def encipher(self):
-        for i in self.text:
-            if i in self.little_alpha:
-                id = self.little_alpha.index(i)
-                move = (id + self.key) % len(self.little_alpha)
-                self.ciphertext += self.little_alpha[move]
-            elif i in self.big_alpha:
-                id = self.big_alpha.index(i)
-                move = (id + self.key) % len(self.big_alpha)
-                self.ciphertext += self.big_alpha[move]
-            elif i in self.numbers:
-                id = self.numbers.index(i)
-                move = (id + self.key) % len(self.numbers)
-                self.ciphertext += self.numbers[move]
-            else:
-                self.ciphertext += i
+
+import string
+
+
+def encrypt(text: str, key: int) -> str:
+    """
+    -------
+    encrypt
+    -------
+    Encode a given text with Caesar cipher and return the cipher-text.
+    """
+
+
+    result = str()
+    for char in text:
         
+        if char in string.ascii_lowercase:
+            result += string.ascii_lowercase[(string.ascii_lowercase.index(char) + key) % 26]
+        
+        elif char in string.ascii_uppercase:
+            result += string.ascii_uppercase[(string.ascii_uppercase.index(char) + key) % 26]
+        
+        elif char in string.digits:
+            result += string.digits[(string.digits.index(char) + key) % 10]
+        
+        else:
+            result += char
+    
+    return result
 
-    def decipher(self):
-        for i in self.text:
-            if i in self.little_alpha:
-                id = self.little_alpha.index(i)
-                move = (id - self.key) % len(self.little_alpha)
-                self.plaintext += self.little_alpha[move]
-            elif i in self.big_alpha:
-                id = self.big_alpha.index(i)
-                move = (id - self.key) % len(self.big_alpha)
-                self.plaintext += self.big_alpha[move]
-            elif i in self.numbers:
-                id = self.numbers.index(i)
-                move = (id - self.key) % len(self.numbers)
-                self.plaintext += self.numbers[move]
-            else:
-                self.plaintext += i
-                
+
+
+def decrypt(text: str, key: int) -> str:
+    """
+    -------
+    decrypt
+    -------
+    Decode a cipher-text and return the plain-text.
+    """
+
+    
+    result = str()
+    for char in text:
+        
+        if char in string.ascii_lowercase:
+            result += string.ascii_lowercase[(string.ascii_lowercase.index(char) - key) % 26]
+        
+        elif char in string.ascii_uppercase:
+            result += string.ascii_uppercase[(string.ascii_uppercase.index(char) - key) % 26]
+        
+        elif char in string.digits:
+            result += string.digits[(string.digits.index(char) - key) % 10]
+        
+        else:
+            result += char
+    
+    return result
